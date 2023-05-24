@@ -5,7 +5,7 @@ from VehicleManager import VehicleManager
 from VehicleRepository import VehicleRepository
 
 app = FastAPI()
-_vehicleManager = VehicleManager(VehicleRepository('mysql.affiche.me', 'db_allphifm', 'stolos', 'st0l0Sdb2324!'))
+_vehicleManager = VehicleManager(VehicleRepository('mysql.affiche.me', 'db_allphifm_TEST', 'stolos', 'st0l0Sdb2324!'))
 
 
 @app.get("/vehicles")
