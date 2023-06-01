@@ -43,6 +43,32 @@ async def add_vehicle(vi: VehicleInfo):
             raise HTTPException(status_code=400, detail=f"DriverID {vi.DriverId} already has a car.")
     raise HTTPException(status_code=500)
 
+@app.put("/updateVehicles", name="updateVehicles")
+def update_vehicles(vi: VehicleInfo):
+    try:
+        if vehicle_manager.get_vehicle_by_vin(vi.VIN) is None:
+            return HTTPException(status_code=404)
+        VehicleManager.update_vehicle(vi)  # Update the line here
+        return JSONResponse(status_code=200)
+    except Exception as ex:
+        code = 500
+        value = None
+        if isinstance(ex.__cause__, Exception) and "Duplicate entry" in str(ex.__cause__) and "Vehicle.PRIMARY" in str(ex.__cause__):
+            code = 400
+            value = f"A vehicle with VIN {vi.VIN} already exists."
+        elif isinstance(ex.__cause__, Exception) and "Duplicate entry" in str(ex.__cause__) and "Vehicle.uc_vehicle_licenseplate" in str(ex.__cause__):
+            code = 400
+            value = f"A vehicle with LP {vi.LicensePlate} already exists."
+        elif isinstance(ex.__cause__, (Exception, Exception)) and "VIN" in str(ex.__cause__):
+            code = 400
+            value = f"{vi.VIN} is an invalid VIN number."
+        elif isinstance(ex.__cause__, Exception) and "Duplicate entry" in str(ex.__cause__) and "Vehicle.uc_vehicle_driverid" in str(ex.__cause__):
+            code = 400
+            value = f"DriverID {vi.DriverId} already has a car."
+        return JSONResponse(status_code=code, content=value)
+        # raise Exception("VehicleController updateVehicle", ex)
+
+
 @app.get("/")
 async def helloworld():
     return {"message": "HelloWorld"}

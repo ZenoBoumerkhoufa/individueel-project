@@ -31,3 +31,7 @@ class VehicleManager:
             driver_id=vehicle_info.DriverId
         )
         self.repository.add_vehicle(vehicle)
+
+    def update_vehicle(self, vehicle_info: VehicleInfo):
+        self.repository.update_vehicle(VehicleMapper.map_dto_to_entity(vehicle_info))
+

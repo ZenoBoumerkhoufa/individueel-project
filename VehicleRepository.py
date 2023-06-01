@@ -1,4 +1,5 @@
 from typing import List, Optional
+
 import mysql.connector
 from Vehicle import Vehicle
 from VehicleType import VehicleType
@@ -27,6 +28,7 @@ class VehicleRepository:
             self.connection.close()
 
     def get_all_vehicles(self) -> List[Vehicle]:
+        global cursor
         vehicles = []
         try:
             self.connect()
@@ -96,6 +98,33 @@ class VehicleRepository:
         try:
             self.connect()
             sql = "INSERT INTO Vehicle (VIN, BrandModel, LicensePlate, FuelType, VehicleType, Color, Doors, DriverID, Deleted) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);"
+            cursor = self.connection.cursor()
+            cursor.execute(sql, (
+                vehicle.VinNumber,
+                vehicle.brand_model,
+                vehicle.license_plate,
+                vehicle.fuel,
+                vehicle.category,
+                vehicle.color,
+                vehicle.doors,
+                vehicle.driver_id,
+                0
+            ))
+            self.connection.commit()
+
+        except mysql.connector.Error as ex:
+            raise ValueError(f"Failed to add vehicle: {ex}")
+
+        finally:
+            if cursor:
+                cursor.close()
+            self.disconnect()
+
+    def update_vehicle(self, vehicle):
+        cursor = None
+        try:
+            self.connect()
+            sql = "UPDATE Vehicle SET BrandModel=%s, LicensePlate=%s, VehicleType=%s, FuelType=%s, Color=%s, Doors=%s, DriverID=%s WHERE VIN=%s;"
             cursor = self.connection.cursor()
             cursor.execute(sql, (
                 vehicle.VinNumber,
