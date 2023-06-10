@@ -68,6 +68,16 @@ def update_vehicles(vi: VehicleInfo):
         return JSONResponse(status_code=code, content=value)
         # raise Exception("VehicleController updateVehicle", ex)
 
+@app.delete("/deleteVehicle", name="deleteVehicles")
+def delete_vehicles(vin : str):
+    try:
+        if vehicle_manager.get_vehicle_by_vin(vin) is None:
+            return HTTPException(status_code=404)
+        vehicle_manager.delete_vehicle(vin)
+        return JSONResponse(content={"message": "Vehicle deleted successfully"})
+    except Exception as ex:
+        return JSONResponse(status_code=500, content=f"Excecuted with exception: {ex}")
+
 
 @app.get("/")
 async def helloworld():

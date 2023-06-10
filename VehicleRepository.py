@@ -146,3 +146,22 @@ class VehicleRepository:
             if cursor:
                 cursor.close()
             self.disconnect()
+
+    def delete_vehicle(self, vin: str):
+        cursor = None
+        try:
+            self.connect()
+            sql = "UPDATE Vehicle SET Deleted = %s WHERE VIN = %s;"
+            cursor = self.connection.cursor()
+            cursor.execute(sql, (
+                1,
+                vin
+            ))
+            self.connection.commit()
+        except mysql.connector.Error as ex:
+            raise ValueError(f"Failed to delete vehicle: {ex}")
+
+        finally:
+            if cursor:
+                cursor.close()
+            self.disconnect()
