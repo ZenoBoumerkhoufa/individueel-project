@@ -10,7 +10,7 @@ class VehicleMapper:
     def map_dto_to_entity(vi: VehicleInfo) -> Vehicle:
         try:
             vehicle_type = VehicleType(vi.VehicleType)
-            fuel_type = FuelType(int(vi.FuelType))
+            fuel_type = FuelType(vi.FuelType)
             return DomainFactory.create_vehicle(
                 vi.VIN, vi.BrandModel, vi.LicensePlate,
                 vehicle_type, fuel_type,

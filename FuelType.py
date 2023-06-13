@@ -1,10 +1,10 @@
 from enum import Enum
 
 class FuelType(Enum):
-    Unknown = 0
-    Petrol = 1
-    Diesel = 2
-    Electric = 3
-    LPG = 4
-    PetrolHybrid = 5
-    DieselHybrid = 6
+    Unknown = "Unknow"
+    Petrol = "Petrol"
+    Diesel = "Diesel"
+    Electric = "Electric"
+    LPG = "LPG"
+    PetrolHybrid = "PetrolHybrid"
+    DieselHybrid = "DieselHybrid"
