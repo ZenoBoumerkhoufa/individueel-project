@@ -20,17 +20,7 @@ class VehicleManager:
         return self.repository.get_vehicle_by_vin(vin)
 
     def add_vehicle(self, vehicle_info: VehicleInfo):
-        vehicle = Vehicle(
-            vin_number=vehicle_info.VIN,
-            brand_model=vehicle_info.BrandModel,
-            license_plate=vehicle_info.LicensePlate,
-            fuel=vehicle_info.FuelType,
-            category=vehicle_info.VehicleType,
-            color=vehicle_info.Color,
-            doors=vehicle_info.Doors,
-            driver_id=vehicle_info.DriverId
-        )
-        self.repository.add_vehicle(vehicle)
+        self.repository.add_vehicle(VehicleMapper.map_dto_to_entity(vehicle_info))
 
     def update_vehicle(self, vehicle_info: VehicleInfo):
         self.repository.update_vehicle(VehicleMapper.map_dto_to_entity(vehicle_info))

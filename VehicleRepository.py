@@ -93,22 +93,23 @@ class VehicleRepository:
 
         return v
 
-    def add_vehicle(self, vehicle: Vehicle):
+    def add_vehicle(self, vehicle):
+        print(f"{vehicle}")
         cursor = None
         try:
             self.connect()
-            sql = "INSERT INTO Vehicle (VIN, BrandModel, LicensePlate, FuelType, VehicleType, Color, Doors, DriverID, Deleted) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);"
+            sql = "INSERT INTO Vehicle (VIN, BrandModel, LicensePlate, VehicleType, FuelType, Color, Doors, DriverID, Deleted) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);"
             cursor = self.connection.cursor()
             cursor.execute(sql, (
-                vehicle.VinNumber,
-                vehicle.brand_model,
-                vehicle.license_plate,
-                vehicle.fuel,
-                vehicle.category,
+                vehicle._VinNumber,
+                vehicle._brand_model,
+                vehicle._license_plate,
+                vehicle.category.value,
+                vehicle.fuel.value,
                 vehicle.color,
                 vehicle.doors,
                 vehicle.driver_id,
-                0
+                0,
             ))
             self.connection.commit()
 
@@ -127,20 +128,19 @@ class VehicleRepository:
             sql = "UPDATE Vehicle SET BrandModel=%s, LicensePlate=%s, VehicleType=%s, FuelType=%s, Color=%s, Doors=%s, DriverID=%s WHERE VIN=%s;"
             cursor = self.connection.cursor()
             cursor.execute(sql, (
-                vehicle.VinNumber,
-                vehicle.brand_model,
-                vehicle.license_plate,
-                vehicle.fuel,
-                vehicle.category,
+                vehicle._brand_model,
+                vehicle._license_plate,
+                vehicle.category.value,
+                vehicle.fuel.value,
                 vehicle.color,
                 vehicle.doors,
                 vehicle.driver_id,
-                0
+                vehicle._VinNumber
             ))
             self.connection.commit()
 
         except mysql.connector.Error as ex:
-            raise ValueError(f"Failed to add vehicle: {ex}")
+            raise ValueError(f"Failed to update vehicle: {ex}")
 
         finally:
             if cursor:

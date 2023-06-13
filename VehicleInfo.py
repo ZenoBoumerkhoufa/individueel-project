@@ -10,4 +10,3 @@ class VehicleInfo(BaseModel):
     Color: Optional[str]
     Doors: Optional[int]
     DriverId: Optional[int]
-
