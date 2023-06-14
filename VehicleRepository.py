@@ -1,5 +1,4 @@
 from typing import List, Optional
-
 import mysql.connector
 from Vehicle import Vehicle
 from VehicleType import VehicleType
