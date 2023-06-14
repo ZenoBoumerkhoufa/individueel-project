@@ -1,0 +1,23 @@
+UPDATE
+{
+  "VIN": "JH4DA9481PS024213",
+  "BrandModel": "Toyota Corola",
+  "LicensePlate": "2-qzxc-325",
+  "FuelType": "Petrol",
+  "VehicleType": "Car",
+  "Color": "Yellow",
+  "Doors": 5,
+  "DriverId": null
+}
+
+ADD
+{
+  "VIN": "PS4DA9481PS025123",
+  "BrandModel": "Porsche 911",
+  "LicensePlate": "1-PSH-618",
+  "FuelType": "Petrol",
+  "VehicleType": "Car",
+  "Color": "Red",
+  "Doors": 3,
+  "DriverId": null
+}
